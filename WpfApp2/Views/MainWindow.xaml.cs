@@ -47,6 +47,7 @@ namespace WpfApp2.Views
         };
         private System.Windows.Threading.DispatcherTimer _notificationTimer = new();
         private HashSet<int> _notifiedNotes = new(); // Для предотвращения повторных уведомлений
+        private bool _isDarkTheme = false;
 
         public ObservableCollection<CalendarDay> CalendarDays
         {
@@ -127,6 +128,18 @@ namespace WpfApp2.Views
                 var date = new DateTime(_currentDate.Year, _currentDate.Month, day);
                 var holiday = _holidays.FirstOrDefault(h => h.Date.Date == date.Date);
 
+                Brush backgroundBrush;
+                if (_isDarkTheme)
+                {
+                    backgroundBrush = (Brush)Application.Current.Resources["CalendarCellDateBackgroundBrush"];
+                }
+                else
+                {
+                    backgroundBrush = holiday != null
+                        ? holiday.BackgroundColor
+                        : (date.Date == DateTime.Today ? Brushes.LightBlue : Brushes.White);
+                }
+
                 var calendarDay = new CalendarDay
                 {
                     DayNumber = day,
@@ -134,9 +147,7 @@ namespace WpfApp2.Views
                     ForegroundBrush = date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday
                         ? Brushes.Red
                         : Brushes.Black,
-                    BackgroundBrush = holiday != null
-                        ? holiday.BackgroundColor
-                        : (date.Date == DateTime.Today ? Brushes.LightBlue : Brushes.White),
+                    BackgroundBrush = backgroundBrush,
                     HolidayName = holiday?.Name
                 };
 
@@ -146,7 +157,16 @@ namespace WpfApp2.Views
             var remainingCells = 42 - CalendarDays.Count;
             for (int i = 0; i < remainingCells; i++)
             {
-                CalendarDays.Add(new CalendarDay { DayNumber = 0, ForegroundBrush = Brushes.LightGray });
+                Brush backgroundBrush;
+                if (_isDarkTheme)
+                {
+                    backgroundBrush = (Brush)Application.Current.Resources["CalendarCellBackgroundBrush"];
+                }
+                else
+                {
+                    backgroundBrush = Brushes.White;
+                }
+                CalendarDays.Add(new CalendarDay { DayNumber = 0, ForegroundBrush = Brushes.LightGray, BackgroundBrush = backgroundBrush });
             }
 
             CalendarDaysControl.ItemsSource = CalendarDays;
@@ -255,6 +275,35 @@ namespace WpfApp2.Views
                 new Holiday { Date = new DateTime(year, 6, 12), Name = "День России" },
                 new Holiday { Date = new DateTime(year, 11, 4), Name = "День народного единства" }
             });
+        }
+
+        private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isDarkTheme)
+            {
+                ChangeTheme("Views/LightTheme.xaml");
+                ThemeToggleButton.Content = "🌙";
+            }
+            else
+            {
+                ChangeTheme("Views/DarkTheme.xaml");
+                ThemeToggleButton.Content = "☀";
+            }
+            _isDarkTheme = !_isDarkTheme;
+        }
+
+        private void ChangeTheme(string themePath)
+        {
+            var dict = new ResourceDictionary { Source = new System.Uri(themePath, System.UriKind.Relative) };
+            var appResources = Application.Current.Resources;
+            if (appResources.MergedDictionaries.Count > 0)
+            {
+                appResources.MergedDictionaries[0] = dict;
+            }
+            else
+            {
+                appResources.MergedDictionaries.Add(dict);
+            }
         }
     }
 }

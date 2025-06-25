@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WpfApp2",
+    "\\WpfApp2\\Models",
+    "\\WpfApp2\\Services",
+    "\\WpfApp2\\Views",
+    "\\WpfApp2\\ViewsModel"
+  ],
+  "SelectedNode": "\\WpfApp2\\Views\\MainWindow.xaml.cs",
+  "PreviewInSolutionExplorer": false
+}

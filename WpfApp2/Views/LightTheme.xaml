@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="WindowBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="TextColor">#FF000000</Color>
+    <Color x:Key="CalendarCellBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="CalendarCellBorderColor">#FF000000</Color>
+    <Color x:Key="CalendarCellTextColor">#FF000000</Color>
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}"/>
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
+    <SolidColorBrush x:Key="CalendarCellBackgroundBrush" Color="{StaticResource CalendarCellBackgroundColor}"/>
+    <SolidColorBrush x:Key="CalendarCellBorderBrush" Color="{StaticResource CalendarCellBorderColor}"/>
+    <SolidColorBrush x:Key="CalendarCellTextBrush" Color="{StaticResource CalendarCellTextColor}"/>
+    <!-- Добавьте другие стили и цвета по необходимости -->
+</ResourceDictionary> 
