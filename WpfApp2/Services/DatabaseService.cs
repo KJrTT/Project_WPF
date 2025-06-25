@@ -15,7 +15,7 @@ namespace WpfApp2.Services
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=game_db;Username=postgres;Password=159753521;");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Calendar;Username=postgres;Password=1208339;");
         }
 
         public async Task<List<Notes>> GetAllNotesAsync()

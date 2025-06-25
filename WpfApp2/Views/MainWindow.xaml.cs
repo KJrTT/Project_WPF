@@ -112,37 +112,43 @@ namespace WpfApp2.Views
         private void LoadCalendar()
         {
             CalendarDays.Clear();
-            
+
             var firstDayOfMonth = new DateTime(_currentDate.Year, _currentDate.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
             var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
-            
+
             for (int i = 0; i < firstDayOfWeek; i++)
             {
                 CalendarDays.Add(new CalendarDay { DayNumber = 0, ForegroundBrush = Brushes.LightGray });
             }
-            
+
             for (int day = 1; day <= lastDayOfMonth.Day; day++)
             {
                 var date = new DateTime(_currentDate.Year, _currentDate.Month, day);
+                var holiday = _holidays.FirstOrDefault(h => h.Date.Date == date.Date);
+
                 var calendarDay = new CalendarDay
                 {
                     DayNumber = day,
                     Date = date,
-                    ForegroundBrush = date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday 
-                        ? Brushes.Red 
+                    ForegroundBrush = date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday
+                        ? Brushes.Red
                         : Brushes.Black,
-                    BackgroundBrush = date.Date == DateTime.Today ? Brushes.LightBlue : Brushes.White
+                    BackgroundBrush = holiday != null
+                        ? holiday.BackgroundColor
+                        : (date.Date == DateTime.Today ? Brushes.LightBlue : Brushes.White),
+                    HolidayName = holiday?.Name
                 };
+
                 CalendarDays.Add(calendarDay);
             }
-            
-            var remainingCells = 42 - CalendarDays.Count; 
+
+            var remainingCells = 42 - CalendarDays.Count;
             for (int i = 0; i < remainingCells; i++)
             {
                 CalendarDays.Add(new CalendarDay { DayNumber = 0, ForegroundBrush = Brushes.LightGray });
             }
-            
+
             CalendarDaysControl.ItemsSource = CalendarDays;
             OnPropertyChanged(nameof(MonthYearText));
         }
@@ -164,6 +170,10 @@ namespace WpfApp2.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             _currentDate = _currentDate.AddMonths(1);
+            if (_currentDate.Year != year)
+            {
+                UpdateHolidaysForYear(_currentDate.Year);
+            }
             year = _currentDate.Year;
             month = _currentDate.Month;
             monthName = monthsDictionary[month].ToString();
@@ -176,6 +186,10 @@ namespace WpfApp2.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             _currentDate = _currentDate.AddMonths(-1);
+            if (_currentDate.Year != year)
+            {
+                UpdateHolidaysForYear(_currentDate.Year);
+            }
             year = _currentDate.Year;
             month = _currentDate.Month;
             monthName = monthsDictionary[month].ToString();
@@ -224,6 +238,23 @@ namespace WpfApp2.Views
                     LoadNotes();
                 }
             }
+        }
+        private readonly List<Holiday> _holidays = new List<Holiday> { };
+
+        private void UpdateHolidaysForYear(int year)
+        {
+            _holidays.Clear();
+            _holidays.AddRange(new List<Holiday>
+            {
+                new Holiday { Date = new DateTime(year, 1, 1), Name = "Новый год" },
+                new Holiday { Date = new DateTime(year, 1, 7), Name = "Рождество" },
+                new Holiday { Date = new DateTime(year, 2, 23), Name = "День защитника Отечества" },
+                new Holiday { Date = new DateTime(year, 3, 8), Name = "Международный женский день" },
+                new Holiday { Date = new DateTime(year, 5, 1), Name = "Праздник весны и труда" },
+                new Holiday { Date = new DateTime(year, 5, 9), Name = "День Победы" },
+                new Holiday { Date = new DateTime(year, 6, 12), Name = "День России" },
+                new Holiday { Date = new DateTime(year, 11, 4), Name = "День народного единства" }
+            });
         }
     }
 }

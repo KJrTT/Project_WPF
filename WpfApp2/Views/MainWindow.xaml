@@ -67,19 +67,29 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="#FFE0E0E0" BorderThickness="1" Margin="1" 
-                                Background="{Binding BackgroundBrush}">
+                Background="{Binding BackgroundBrush}">
                             <Border.ToolTip>
-                                <ItemsControl ItemsSource="{Binding DayNotes}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Title}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Date, StringFormat='dd.MM.yyyy'}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding HolidayName}" Foreground="Red" FontWeight="Bold"/>
+                                    <ItemsControl ItemsSource="{Binding DayNotes}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Title}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
                             </Border.ToolTip>
-                            <TextBlock Text="{Binding DayNumber}" 
-                                      HorizontalAlignment="Right" Margin="5"
-                                      Foreground="{Binding ForegroundBrush}"/>
+                            <StackPanel>
+                                <TextBlock Text="{Binding DayNumber}" 
+                          HorizontalAlignment="Right" Margin="5,2,5,0"
+                          Foreground="{Binding ForegroundBrush}"/>
+                                <TextBlock Text="{Binding HolidayName}" 
+                          HorizontalAlignment="Center" Margin="2"
+                          FontSize="8" TextWrapping="Wrap" TextAlignment="Center"
+                          Foreground="Red" FontWeight="Bold"/>
+                            </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
