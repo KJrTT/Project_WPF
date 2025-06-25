@@ -1,0 +1,52 @@
+<Window x:Class="WpfApp2.Views.AddTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2.Views"
+        mc:Ignorable="d"
+        Title="Добавить заметку" Height="350" Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Заголовок:" Grid.Row="0"/>
+        <TextBox x:Name="TitleTextBox" Grid.Row="1" Margin="0 5" 
+                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Добавленный DatePicker -->
+        <Label Content="Дата:" Grid.Row="2"/>
+        <DatePicker x:Name="DatePicker" Grid.Row="3" Margin="0 5"
+                   SelectedDate="{Binding Date}"/>
+        <!-- TimePicker -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,5,0,5">
+            <Label Content="Время:" VerticalAlignment="Center"/>
+            <ComboBox x:Name="HourComboBox" Width="50" Margin="5,0,0,0"/>
+            <TextBlock Text=":" VerticalAlignment="Center"/>
+            <ComboBox x:Name="MinuteComboBox" Width="50"/>
+        </StackPanel>
+
+        <Label Content="Описание:" Grid.Row="5" Margin="0,58,0,70"/>
+        <TextBox x:Name="DescriptionTextBox" Grid.Row="5" Margin="0,79,0,5" Height="60" 
+                 TextWrapping="Wrap" AcceptsReturn="True"
+                 Text="Описание"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="SaveButton" Content="Сохранить" Width="80" Margin="0 0 10 0" Click="SaveButton_Click"/>
+            <Button x:Name="CancelButton" Content="Отмена" Width="80" Click="CancelButton_Click"/>
+        </StackPanel>
+
+        <Label Content="Уровень приоритета" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="110" Height="23" FontSize="10"/>
+        <Label Content="Вид задачи" HorizontalAlignment="Left" Margin="249,0,0,0" Grid.Row="4" VerticalAlignment="Top" FontSize="10" Grid.RowSpan="2"/>
+        <ComboBox x:Name="MyComboBox" HorizontalAlignment="Left" Margin="10,28,0,0" Grid.Row="5" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="MyComboBox2" HorizontalAlignment="Left" Margin="249,28,0,0" Grid.Row="5" VerticalAlignment="Top" Width="120"/>
+    </Grid>
+</Window>
