@@ -29,7 +29,9 @@ optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Calendar;Username=po
 
 Альтернативно, вы можете использовать файл конфигурации `appsettings.json` для хранения строки подключения.
 ### 3. Настройка NuGet - пакета:
-   - Установка EntityFrameworkCore ```dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL```
+   - Установка EntityFrameworkCore
+     ```csharp
+     dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL```
      
 ### 4. Запуск приложения
 
